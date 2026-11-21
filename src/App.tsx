@@ -5,6 +5,7 @@ import { Cookie } from "./components/Cookie";
 import { FortuneCard } from "./components/FortuneCard";
 import { Guide } from "./components/Guide";
 import { Hammer } from "./components/Hammer";
+import { InstallApp } from "./components/InstallApp";
 import { Welcome } from "./components/Welcome";
 import { drawFortune, type Fortune } from "./lib/deck";
 import { playBreak, playHit, playReveal } from "./lib/sound";
@@ -99,7 +100,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <header className="relative z-40 mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+      <header className="relative z-40 mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
         <div className="min-w-0">
           <p className="font-display text-lg font-extrabold leading-none sm:text-xl">Biscoito Aleatório</p>
           <p className="truncate text-sm text-white/60">
@@ -110,6 +111,7 @@ export default function App() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <InstallApp />
           <div className="hidden items-center gap-2 rounded-full bg-white/5 px-3 py-2 text-sm font-bold sm:flex" title="Seu placar">
             <span className="text-luck">✦ {stats.sorte}</span>
             <span className="text-white/25">|</span>

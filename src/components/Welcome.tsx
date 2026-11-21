@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { useState, type FormEvent } from "react";
 import { TOTAL_FRASES } from "../lib/deck";
 import { Cookie } from "./Cookie";
+import { InstallApp } from "./InstallApp";
 
 export function Welcome({ onStart }: { onStart: (name: string) => void }) {
   const [name, setName] = useState("");
@@ -55,6 +56,7 @@ export function Welcome({ onStart }: { onStart: (name: string) => void }) {
         >
           Pegar meu biscoito
         </button>
+        <InstallApp variant="full" />
       </form>
       <p className="mt-6 text-xs text-white/40">{TOTAL_FRASES.toLocaleString("pt-BR")} mensagens diferentes esperando por você</p>
     </motion.section>
