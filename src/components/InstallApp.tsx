@@ -74,7 +74,7 @@ export function InstallApp({ variant = "icon" }: { variant?: "icon" | "full" }) 
       <AnimatePresence>
         {showIosTip && (
           <motion.div
-            className="fixed inset-0 z-[70] flex items-end justify-center bg-black/60 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[70] flex items-end justify-center bg-black/75 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

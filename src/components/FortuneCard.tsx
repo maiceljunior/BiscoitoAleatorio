@@ -35,7 +35,7 @@ export function FortuneCard({ fortune, onAgain }: Props) {
       transition={{ type: "spring", stiffness: 120, damping: 15, delay: 0.25 }}
     >
       <motion.div
-        className="paper origin-center rounded-md px-6 py-7 text-center text-night shadow-[0_20px_60px_rgb(0_0_0/0.45)] sm:px-10"
+        className="paper origin-center rounded-md px-6 py-7 text-center text-night shadow-[0_20px_60px_rgb(0_0_0/0.45)] will-change-transform sm:px-10"
         initial={{ scaleX: 0.08, rotate: -3 }}
         animate={{ scaleX: 1, rotate: lucky ? -1 : 1.5 }}
         transition={{ type: "spring", stiffness: 90, damping: 13, delay: 0.35 }}
@@ -75,7 +75,7 @@ export function FortuneCard({ fortune, onAgain }: Props) {
         <button
           type="button"
           onClick={share}
-          className="rounded-full bg-white/10 px-5 py-3 font-bold backdrop-blur transition hover:bg-white/20"
+          className="rounded-full bg-white/10 px-5 py-3 font-bold transition hover:bg-white/20"
         >
           {copied ? "Copiado!" : "Compartilhar"}
         </button>

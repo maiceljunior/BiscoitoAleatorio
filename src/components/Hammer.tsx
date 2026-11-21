@@ -59,7 +59,7 @@ export function Hammer({ active, swingKey, tapAt }: Props) {
         width="86"
         height="86"
         viewBox="0 0 100 100"
-        className="-translate-x-[18px] -translate-y-[70px] drop-shadow-[0_8px_10px_rgb(0_0_0/0.5)]"
+        className="-translate-x-[18px] -translate-y-[70px] [@media(pointer:fine)]:drop-shadow-[0_8px_10px_rgb(0_0_0/0.5)]"
         style={{ originX: "20%", originY: "80%" }}
         initial={{ rotate: swingKey ? -45 : 0 }}
         animate={{ rotate: swingKey ? [-45, 18, 0] : 0 }}

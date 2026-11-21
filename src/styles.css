@@ -76,6 +76,18 @@
   background-size: 400px 400px;
   opacity: 0.35;
   animation: twinkle 6s ease-in-out infinite alternate;
+  /* camada própria: piscar não redesenha a tela toda */
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* No celular as estrelas ficam paradas (economiza bateria e processamento) */
+@media (pointer: coarse) {
+  .stars {
+    animation: none;
+    opacity: 0.45;
+    will-change: auto;
+  }
 }
 
 @keyframes twinkle {

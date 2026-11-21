@@ -47,7 +47,7 @@ export function Welcome({ onStart }: { onStart: (name: string) => void }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Como você se chama?"
-          className="h-14 rounded-2xl border border-white/15 bg-white/5 px-5 text-center text-lg outline-none backdrop-blur transition placeholder:text-white/40 focus:border-cookie focus:bg-white/10"
+          className="h-14 rounded-2xl border border-white/15 bg-white/5 px-5 text-center text-lg outline-none transition placeholder:text-white/40 focus:border-cookie focus:bg-white/10"
         />
         <button
           type="submit"

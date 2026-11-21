@@ -16,8 +16,13 @@ const PALETTE: Record<BurstKind, string[]> = {
   gloom: ["#b48cff", "#6c4bb0", "#8f7fb3", "#3d2b63"],
 };
 
+// Celular/tela de toque: menos partículas e sem brilho, para manter 60 quadros por segundo.
+const lowPower =
+  typeof window !== "undefined" &&
+  (matchMedia("(pointer: coarse)").matches || (navigator.hardwareConcurrency ?? 8) <= 4);
+
 /** Partículas que explodem a partir do centro: farelos, confete ou "nuvem de azar". */
-export function Burst({ kind, seed, count = kind === "crumbs" ? 14 : 36 }: Props) {
+export function Burst({ kind, seed, count = kind === "crumbs" ? (lowPower ? 8 : 14) : lowPower ? 18 : 36 }: Props) {
   const particles = useMemo(
     () =>
       Array.from({ length: count }, (_, i) => {
@@ -49,7 +54,8 @@ export function Burst({ kind, seed, count = kind === "crumbs" ? 14 : 36 }: Props
             height: p.round ? p.size : p.size * 0.45,
             background: p.color,
             borderRadius: p.round ? "50%" : 2,
-            boxShadow: kind === "confetti" ? `0 0 8px ${p.color}` : undefined,
+            boxShadow: kind === "confetti" && !lowPower ? `0 0 8px ${p.color}` : undefined,
+            willChange: "transform, opacity",
           }}
           initial={{ x: 0, y: 0, opacity: 1, rotate: 0, scale: 1 }}
           animate={{

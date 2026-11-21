@@ -51,11 +51,16 @@ export function Cookie({ hits, hitsToBreak, broken, hitKey }: Props) {
   return (
     <motion.svg
       viewBox="0 0 320 250"
-      className="w-full overflow-visible drop-shadow-[0_30px_40px_rgb(0_0_0/0.45)]"
+      className="w-full overflow-visible will-change-transform"
       animate={shake}
       aria-hidden="true"
     >
       <defs>
+        {/* Sombra feita com gradiente: bem mais leve que filtro de desfoque no celular */}
+        <radialGradient id="shadow">
+          <stop offset="0%" stopColor="#000" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#000" stopOpacity="0" />
+        </radialGradient>
         <linearGradient id="dough" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#ffd28a" />
           <stop offset="50%" stopColor="#f2a541" />
@@ -66,6 +71,15 @@ export function Cookie({ hits, hitsToBreak, broken, hitKey }: Props) {
           <stop offset="100%" stopColor="#c46a1b" />
         </linearGradient>
       </defs>
+
+      <motion.ellipse
+        cx="168"
+        cy="232"
+        rx="120"
+        ry="16"
+        fill="url(#shadow)"
+        animate={broken ? { opacity: 0 } : { opacity: 1 }}
+      />
 
       {/* Papelzinho saindo por baixo do vinco */}
       <motion.g animate={broken ? { opacity: 0, y: 10 } : { opacity: 1, y: 0 }}>
