@@ -1,5 +1,4 @@
-import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { Fortune } from "../lib/deck";
 
 interface Props {
@@ -28,17 +27,11 @@ export function FortuneCard({ fortune, onAgain }: Props) {
   }
 
   return (
-    <motion.div
-      className="relative z-30 mx-auto w-full max-w-lg"
-      initial={{ opacity: 0, y: 40, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ type: "spring", stiffness: 120, damping: 15, delay: 0.25 }}
-    >
-      <motion.div
-        className="paper origin-center rounded-md px-6 py-7 text-center text-night shadow-[0_20px_60px_rgb(0_0_0/0.45)] will-change-transform sm:px-10"
-        initial={{ scaleX: 0.08, rotate: -3 }}
-        animate={{ scaleX: 1, rotate: lucky ? -1 : 1.5 }}
-        transition={{ type: "spring", stiffness: 90, damping: 13, delay: 0.35 }}
+    // Animações em CSS (transform/opacity): rodam na placa de vídeo, sem JS por quadro.
+    <div className="anim-card relative z-30 mx-auto w-full max-w-lg">
+      <div
+        className="paper anim-paper rounded-md px-6 py-7 text-center text-night shadow-[0_14px_34px_rgb(0_0_0/0.4)] sm:px-10"
+        style={{ "--tilt": lucky ? "-1deg" : "1.5deg" } as CSSProperties}
       >
         <span
           className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-widest ${
@@ -47,23 +40,13 @@ export function FortuneCard({ fortune, onAgain }: Props) {
         >
           {lucky ? "✦ Biscoito da sorte" : "☁ Biscoito pessimista"}
         </span>
-        <motion.p
-          className="mt-4 font-display text-2xl leading-snug sm:text-[1.7rem]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-        >
+        <p className="anim-fade mt-4 font-display text-2xl leading-snug sm:text-[1.7rem]" style={{ animationDelay: "850ms" }}>
           “{fortune.text}”
-        </motion.p>
+        </p>
         <p className="mt-4 text-xs font-semibold text-night/45">nº {String(fortune.id + 1).padStart(4, "0")}</p>
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="mt-6 flex flex-wrap justify-center gap-3"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-      >
+      <div className="anim-fade mt-6 flex flex-wrap justify-center gap-3" style={{ animationDelay: "1050ms" }}>
         <button
           type="button"
           autoFocus
@@ -79,7 +62,7 @@ export function FortuneCard({ fortune, onAgain }: Props) {
         >
           {copied ? "Copiado!" : "Compartilhar"}
         </button>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }

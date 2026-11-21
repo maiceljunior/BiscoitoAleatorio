@@ -23,15 +23,15 @@ export default function App() {
   const [hitsToBreak, setHitsToBreak] = useState(randomHits);
   const [hitKey, setHitKey] = useState(0);
   const [fortune, setFortune] = useState<Fortune | null>(null);
-  const [bursts, setBursts] = useState<{ kind: BurstKind; seed: number }[]>([]);
+  const [bursts, setBursts] = useState<{ kind: BurstKind; seed: number; delay: number }[]>([]);
   const [hovering, setHovering] = useState(false);
   const [tapAt, setTapAt] = useState<{ x: number; y: number } | null>(null);
 
   const broken = fortune !== null;
 
-  const addBurst = (kind: BurstKind) => {
+  const addBurst = (kind: BurstKind, delay = 0) => {
     const seed = Date.now() + Math.random();
-    setBursts((list) => [...list.slice(-4), { kind, seed }]);
+    setBursts((list) => [...list.slice(-3), { kind, seed, delay }]);
   };
 
   function hit(e: MouseEvent<HTMLButtonElement>) {
@@ -53,7 +53,7 @@ export default function App() {
         playBreak();
         playReveal(lucky);
       }
-      setTimeout(() => addBurst(lucky ? "confetti" : "gloom"), 220);
+      addBurst(lucky ? "confetti" : "gloom", 320);
     }
   }
 
@@ -80,25 +80,19 @@ export default function App() {
     <div className="sky relative min-h-dvh overflow-hidden">
       <div className="stars pointer-events-none fixed inset-0" />
 
-      {/* Clima da tela depois que o biscoito quebra */}
-      <AnimatePresence>
-        {mood && (
-          <motion.div
-            key={mood + hitKey}
-            className="pointer-events-none fixed inset-0"
-            style={{
-              background:
-                mood === "sorte"
-                  ? "radial-gradient(600px 400px at 50% 40%, rgb(245 197 66 / 0.28), transparent 70%)"
-                  : "radial-gradient(700px 500px at 50% 40%, rgb(108 75 176 / 0.35), transparent 70%)",
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: mood === "azar" ? [0, 1, 0.4, 1] : 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: mood === "azar" ? 0.6 : 0.8 }}
-          />
-        )}
-      </AnimatePresence>
+      {/* Clima da tela depois que o biscoito quebra (animação CSS, só opacidade) */}
+      {mood && (
+        <div
+          key={mood + hitKey}
+          className={`mood pointer-events-none fixed inset-0 ${mood === "azar" ? "mood-azar" : ""}`}
+          style={{
+            background:
+              mood === "sorte"
+                ? "radial-gradient(600px 400px at 50% 40%, rgb(245 197 66 / 0.28), transparent 70%)"
+                : "radial-gradient(700px 500px at 50% 40%, rgb(108 75 176 / 0.35), transparent 70%)",
+          }}
+        />
+      )}
 
       <header className="relative z-40 mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
         <div className="min-w-0">
@@ -146,22 +140,25 @@ export default function App() {
 
         <div className={`relative w-full max-w-md ${broken ? "" : "cursor-none"}`}>
           {bursts.map((b) => (
-            <Burst key={b.seed} kind={b.kind} seed={b.seed} />
+            <Burst key={b.seed} kind={b.kind} seed={b.seed} delay={b.delay} />
           ))}
 
-          <motion.button
-            type="button"
-            onClick={hit}
-            onPointerEnter={() => setHovering(true)}
-            onPointerLeave={() => setHovering(false)}
-            disabled={broken}
-            aria-label={broken ? "Biscoito quebrado" : `Bater no biscoito (${hits} de ${hitsToBreak} marteladas)`}
-            className={`relative block w-full rounded-[40%] focus-visible:outline-offset-8 ${broken ? "cursor-default" : "cursor-none"}`}
-            animate={broken ? { y: -40, scale: 0.8 } : { y: [0, -8, 0] }}
-            transition={broken ? { type: "spring", stiffness: 120, damping: 16 } : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Cookie hits={hits} hitsToBreak={hitsToBreak} broken={broken} hitKey={hitKey} />
-          </motion.button>
+          {/* Flutuação e "pulo" ao quebrar em CSS: rodam na placa de vídeo */}
+          <div className={broken ? "" : "anim-float"}>
+            <button
+              type="button"
+              onClick={hit}
+              onPointerEnter={() => setHovering(true)}
+              onPointerLeave={() => setHovering(false)}
+              disabled={broken}
+              aria-label={broken ? "Biscoito quebrado" : `Bater no biscoito (${hits} de ${hitsToBreak} marteladas)`}
+              className={`relative block w-full rounded-[40%] transition-transform duration-500 ease-[cubic-bezier(0.2,1.3,0.4,1)] will-change-transform focus-visible:outline-offset-8 ${
+                broken ? "-translate-y-10 scale-[0.8] cursor-default" : "cursor-none"
+              }`}
+            >
+              <Cookie hits={hits} hitsToBreak={hitsToBreak} broken={broken} hitKey={hitKey} />
+            </button>
+          </div>
 
           {!broken && (
             <div className="mt-4 flex flex-col items-center gap-3">

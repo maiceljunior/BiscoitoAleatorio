@@ -103,8 +103,108 @@
     var(--color-paper);
 }
 
+/* Biscoito flutuando enquanto espera a martelada */
+.anim-float {
+  animation: float 3.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+/* Revelação da mensagem (só transform/opacity = placa de vídeo) */
+.anim-card {
+  animation: card-in 0.55s cubic-bezier(0.2, 1.25, 0.4, 1) 0.45s both;
+}
+
+.anim-paper {
+  transform-origin: center;
+  animation: paper-unroll 0.6s cubic-bezier(0.2, 1.2, 0.4, 1) 0.55s both;
+}
+
+.anim-fade {
+  animation: fade-up 0.4s ease-out both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes paper-unroll {
+  from {
+    transform: scaleX(0.1) rotate(-3deg);
+  }
+  to {
+    transform: scaleX(1) rotate(var(--tilt, 0deg));
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Clima da tela depois que quebra: só opacidade, em camada própria */
+.mood {
+  will-change: opacity;
+  animation: mood-in 0.6s ease-out both;
+}
+
+.mood-azar {
+  animation: mood-flash 0.7s ease-out both;
+}
+
+@keyframes mood-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mood-flash {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .stars {
+  .stars,
+  .anim-float,
+  .anim-card,
+  .anim-paper,
+  .anim-fade,
+  .mood {
     animation: none;
   }
 }
