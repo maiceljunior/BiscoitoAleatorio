@@ -5,6 +5,9 @@ let ctx: AudioContext | null = null;
 const breakAudio = typeof Audio !== "undefined" ? new Audio("/audio/quebrando.mp3") : null;
 
 function audio() {
+  // iPhone: sem isso, o modo silencioso cala os efeitos sintetizados (Safari 16.4+).
+  const nav = navigator as Navigator & { audioSession?: { type: string } };
+  if (nav.audioSession) nav.audioSession.type = "playback";
   ctx ??= new AudioContext();
   if (ctx.state === "suspended") void ctx.resume();
   return ctx;
