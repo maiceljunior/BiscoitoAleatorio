@@ -1,0 +1,9 @@
+node_modules
+dist
+*.local
+.env
+.DS_Store
+.vercel
+.claude/
+CLAUDE.md
+AGENTS.md

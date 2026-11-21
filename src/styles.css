@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+
+  --color-night: #140b24;
+  --color-night-2: #1f1235;
+  --color-cookie: #f2a541;
+  --color-cookie-dark: #c46a1b;
+  --color-paper: #fbf6ea;
+  --color-luck: #f5c542;
+  --color-luck-soft: #ffe9a3;
+  --color-bad: #b48cff;
+  --color-bad-dark: #6c4bb0;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body {
+    @apply bg-night font-sans text-white antialiased;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-luck;
+  }
+}
+
+/* Céu com estrelas no fundo */
+.sky {
+  background:
+    radial-gradient(1200px 600px at 50% 110%, rgb(242 165 65 / 0.18), transparent 60%),
+    radial-gradient(800px 500px at 10% -10%, rgb(180 140 255 / 0.22), transparent 60%),
+    linear-gradient(180deg, #1f1235 0%, #140b24 100%);
+}
+
+.stars {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, white, transparent),
+    radial-gradient(1px 1px at 70% 20%, white, transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, white, transparent),
+    radial-gradient(1px 1px at 85% 60%, white, transparent),
+    radial-gradient(1px 1px at 10% 80%, white, transparent),
+    radial-gradient(1.5px 1.5px at 55% 45%, white, transparent),
+    radial-gradient(1px 1px at 30% 55%, white, transparent),
+    radial-gradient(1px 1px at 90% 85%, white, transparent);
+  background-size: 400px 400px;
+  opacity: 0.35;
+  animation: twinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  to {
+    opacity: 0.6;
+  }
+}
+
+/* Papel da mensagem */
+.paper {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 27px, rgb(196 106 27 / 0.08) 27px 28px),
+    var(--color-paper);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars {
+    animation: none;
+  }
+}
